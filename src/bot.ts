@@ -2,8 +2,15 @@ import { Bot, Context } from "grammy";
 import { mainMenu } from "./utils/menus";
 import profile from "./commands/profile";
 import { access } from "./commands/access";
-const app = new Bot("6870648634:AAHkN1XchBXHZ8CT7Qq-QJ-CWaDEBCrIP4E")
+import 'dotenv/config';
 import invite from "./commands/invite";
+const BotToken = process.env.BOT_TOKEN
+
+if (!BotToken) {
+    throw new Error("MercadoPago access token is not defined");
+}
+
+const app = new Bot(BotToken)
 
 try {
     setInterval(async (ctx: Context) => {
