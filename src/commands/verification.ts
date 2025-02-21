@@ -33,7 +33,6 @@ export default async function verification(app: Bot, ctx: Context) {
             invite(app, ctx, "🤔 Parece que você não está no canal! Eis aqui o link do canal. 😁");
             return;
         }
-
         ctx.reply("✅ Você já está no canal.", { reply_markup: backMenu });
 
     } catch (error) {

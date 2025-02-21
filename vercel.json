@@ -1,15 +1,20 @@
 {
     "version": 2,
-    "builds":[
+    "builds": [
         {
             "src": "src/bot.ts",
             "use": "@vercel/node"
         }
     ],
+    "functions": {
+        "api/index.ts": {
+            "runtime": "nodejs18.x"
+        }
+    },
     "routes": [
         {
-            "src": "(.*)",
-            "dest": "src/bot.ts"
+            "src": "/api",
+            "dest": "api/index.ts"
         }
     ]
 }
