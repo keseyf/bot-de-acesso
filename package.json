@@ -1,0 +1,27 @@
+{
+  "name": "bot-pagamentos",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node --watch ./dist/bot.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@prisma/client": "^6.3.1",
+    "dotenv": "^16.4.7",
+    "env": "^0.0.2",
+    "grammy": "^1.35.0",
+    "mercadopago": "^2.3.0",
+    "prisma": "^6.3.1",
+    "qrcode": "^1.5.4",
+    "tsc": "^2.0.4",
+    "typescript": "^5.7.3"
+  },
+  "devDependencies": {
+    "@types/qrcode": "^1.5.5"
+  }
+}
