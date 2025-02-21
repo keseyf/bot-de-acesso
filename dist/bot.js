@@ -16,8 +16,13 @@ const grammy_1 = require("grammy");
 const menus_1 = require("./utils/menus");
 const profile_1 = __importDefault(require("./commands/profile"));
 const access_1 = require("./commands/access");
-const app = new grammy_1.Bot("6870648634:AAHkN1XchBXHZ8CT7Qq-QJ-CWaDEBCrIP4E");
+require("dotenv/config");
 const invite_1 = __importDefault(require("./commands/invite"));
+const BotToken = process.env.BOT_TOKEN;
+if (!BotToken) {
+    throw new Error("MercadoPago access token is not defined");
+}
+const app = new grammy_1.Bot(BotToken);
 try {
     setInterval((ctx) => __awaiter(void 0, void 0, void 0, function* () {
         const msg = "Parece que você não está no canal! Eis aqui o link do canal.";
