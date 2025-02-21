@@ -1,0 +1,15 @@
+{
+    "versio": 2,
+    "builds":[
+        {
+            "src": "src/bot.ts",
+            "vercel": "@vercel/node"
+        }
+    ],
+    "routes": [
+        {
+            "src": "(.*)",
+            "dest": "src/bot.ts"
+        }
+    ]
+}
