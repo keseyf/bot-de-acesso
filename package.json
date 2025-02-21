@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node --watch ./dist/bot.js"
+    "dev": "node --watch ./dist/bot.js",
+    "vercel-build": "npx prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
