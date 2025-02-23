@@ -96,7 +96,7 @@ Chave Pix Copia e Cola: \`${pixCopyPasteKey}\``,
                 }
 
                 // Se passar 3 minutos sem aprovação, cancela o pagamento
-                await ctx.editMessageText("⏳ Tempo expirado! O pagamento não foi concluído dentro do prazo.");
+                await ctx.editMessageText("⏳ Tempo expirado! O pagamento não foi concluído dentro do prazo.", { reply_markup: backMenu });
                 await payment.cancel({ id: paymentId });
             };
 

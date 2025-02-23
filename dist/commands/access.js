@@ -131,7 +131,7 @@ Chave Pix Copia e Cola: \`${pixCopyPasteKey}\``, { parse_mode: "Markdown", reply
                         yield new Promise(resolve => setTimeout(resolve, 5000)); // Espera 5 segundos antes da próxima verificação
                     }
                     // Se passar 3 minutos sem aprovação, cancela o pagamento
-                    yield ctx.editMessageText("⏳ Tempo expirado! O pagamento não foi concluído dentro do prazo.");
+                    yield ctx.editMessageText("⏳ Tempo expirado! O pagamento não foi concluído dentro do prazo.", { reply_markup: menus_1.backMenu });
                     yield payment.cancel({ id: paymentId });
                 });
                 checkPayment(); // Inicia o loop de verificação
