@@ -30,7 +30,7 @@ app.callbackQuery("profile", async (ctx) => {
 })
 
 app.callbackQuery("start", (ctx) => {
-    ctx.reply(`👋 Olá, \`${ctx.chat?.first_name}\`, Seja Bem vindo!`, { reply_markup: mainMenu, parse_mode: "Markdown" });
+    ctx.editMessageText(`👋 Olá, \`${ctx.chat?.first_name}\`, Seja Bem vindo!`, { reply_markup: mainMenu, parse_mode: "Markdown" });
 })
 
 app.callbackQuery("access", async (ctx) => {

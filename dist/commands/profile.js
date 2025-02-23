@@ -16,14 +16,14 @@ const prisma = new client_1.PrismaClient();
 function profile(ctx) {
     return __awaiter(this, void 0, void 0, function* () {
         var _a;
-        ctx.deleteMessage();
+        ctx.editMessageText("🕰 Acessando informações...");
         const perfil = yield prisma.user.findUnique({
             where: {
                 telegramId: ctx.chatId,
             },
         });
         if (perfil) {
-            ctx.reply(`👤 Seu perfil:
+            ctx.editMessageText(`👤 Seu perfil:
 
 🆔 \*ID\*: ${perfil.telegramId}
 💳 \*Nome\*: ${perfil.firstName}
@@ -39,7 +39,7 @@ function profile(ctx) {
                     firstName: (_a = ctx.chat) === null || _a === void 0 ? void 0 : _a.first_name
                 },
             });
-            ctx.reply(`👤 Seu perfil:
+            ctx.editMessageText(`👤 Seu perfil:
 
 🆔 \*ID\*: ${perfil.telegramId}
 💳 \*Nome\*: ${perfil.firstName}

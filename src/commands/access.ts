@@ -10,7 +10,7 @@ import register from "./register";
 const app = new Bot("7946286603:AAGK48VKGoBhhWe6A8d-jQVREpgm-dsgfhg");
 
 const MPToken = process.env.TOKEN_MP;
-const amount = 0.01;
+const amount = process.env.AMOUNT;
 
 const prisma = new PrismaClient();
 if (!MPToken) {
@@ -27,8 +27,7 @@ const mp = new MercadoPagoConfig({
 const payment = new Payment(mp);
 
 export async function access(ctx: Context) {
-    ctx.deleteMessage();
-    ctx.reply("🕰 Acessando informações...");
+    ctx.editMessageText("🕰 Acessando informações...");
     const telegramuserid = ctx.chat?.id;
     const userId = ctx.from?.id?.toString() ?? "0";
 
@@ -43,15 +42,10 @@ export async function access(ctx: Context) {
     if (user?.access === "full") {
         verification(app, ctx);
     } else {
-        ctx.reply(
-            `🛑 *Acesso Restrito!*\nPara ter acesso \`FULL\`, efetue o pagamento de *R$${amount},00* via Pix. Assim que o pagamento for aprovado, seu acesso será liberado automaticamente.`,
-            { parse_mode: "Markdown" }
-        );
-
         try {
             const response = await payment.create({
                 body: {
-                    transaction_amount: amount,
+                    transaction_amount: Number(amount),
                     payment_method_id: "pix",
                     payer: {
                         email: `user_${userId}@example.com`,
@@ -61,11 +55,14 @@ export async function access(ctx: Context) {
 
             if (response?.point_of_interaction?.transaction_data?.qr_code) {
                 const pixCopyPasteKey = response.point_of_interaction.transaction_data.qr_code;
-                await ctx.reply(
-                    `🔑😊 Aqui está a chave Pix para pagamento de \*R$${amount}\*. Copie e cole a chave abaixo para efetuar o pagamento. Assim que o pagamento for aprovado, seu acesso será liberado automaticamente.
+                await ctx.editMessageText(
+                    `
+❌ *Acesso Restrito!*\nPara ter acesso \`FULL\`, efetue o pagamento de *R$${amount}* via Pix. Assim que o pagamento for aprovado, seu acesso será liberado automaticamente.                    
+
+Copie e cole a chave abaixo para efetuar o pagamento. Assim que o pagamento for aprovado, seu acesso será liberado automaticamente.
                     
 Chave Pix Copia e Cola: \`${pixCopyPasteKey}\``,
-                    { parse_mode: "Markdown" }
+                    { parse_mode: "Markdown", reply_markup: backMenu }
                 );
             } else {
                 throw new Error("Chave Pix não disponível.");
@@ -87,7 +84,7 @@ Chave Pix Copia e Cola: \`${pixCopyPasteKey}\``,
                                 where: { telegramId: telegramuserid },
                                 data: { access: "full" },
                             });
-                            await ctx.reply("✅ *Pagamento aprovado!* Seu acesso foi atualizado para FULL.", { parse_mode: "Markdown", reply_markup: backMenu });
+                            await ctx.editMessageText("✅ *Pagamento aprovado!* Seu acesso foi atualizado para FULL.", { parse_mode: "Markdown", reply_markup: backMenu });
                             invite(app, ctx, "🎉⬇ Bem-vindo ao canal! Aqui está o link do canal: ");
                             return; // Sai do loop assim que aprovado
                         }
@@ -99,7 +96,7 @@ Chave Pix Copia e Cola: \`${pixCopyPasteKey}\``,
                 }
 
                 // Se passar 3 minutos sem aprovação, cancela o pagamento
-                await ctx.reply("⏳ Tempo expirado! O pagamento não foi concluído dentro do prazo.");
+                await ctx.editMessageText("⏳ Tempo expirado! O pagamento não foi concluído dentro do prazo.");
                 await payment.cancel({ id: paymentId });
             };
 
@@ -107,7 +104,7 @@ Chave Pix Copia e Cola: \`${pixCopyPasteKey}\``,
 
         } catch (error) {
             console.error("Erro ao criar Pix:", error);
-            await ctx.reply("❌ Ocorreu um erro ao gerar a chave Pix. Tente novamente mais tarde.");
+            await ctx.editMessageText("❌ Ocorreu um erro ao gerar a chave Pix. Tente novamente mais tarde.");
         }
     }
 }

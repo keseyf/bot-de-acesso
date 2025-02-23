@@ -22,21 +22,21 @@ function verification(app, ctx) {
         var _a;
         try {
             let dataFinded = false;
-            ctx.reply("🎲 Verificando Banco de dados...");
+            yield ctx.editMessageText("🎲 Verificando Banco de dados...");
             const telegramId = (_a = ctx.chat) === null || _a === void 0 ? void 0 : _a.id;
             if (!telegramId)
-                return ctx.reply("Erro ao obter ID do usuário. 🤔");
+                return yield ctx.editMessageText("Erro ao obter ID do usuário. 🤔");
             const user = yield prisma.user.findUnique({
                 where: { telegramId },
             });
             if (!user)
-                return ctx.reply("Usuário não encontrado no banco de dados. 🤔");
-            ctx.reply("👀 Verificando presença...");
-            setTimeout(() => {
-                if (dataFinded == false) {
-                    ctx.reply("🕰 Isto pode demorar algum tempo");
+                return yield ctx.editMessageText("Usuário não encontrado no banco de dados. 🤔");
+            yield ctx.editMessageText("👀 Verificando presença...");
+            setTimeout(() => __awaiter(this, void 0, void 0, function* () {
+                if (!dataFinded) {
+                    yield ctx.editMessageText("🕰 Isto pode demorar algum tempo");
                 }
-            }, 3000);
+            }), 3000);
             const chatMember = yield app.api.getChatMember("-1002339689741", Number(telegramId));
             if (chatMember) {
                 dataFinded = true;
@@ -45,11 +45,11 @@ function verification(app, ctx) {
                 (0, invite_1.default)(app, ctx, "🤔 Parece que você não está no canal! Eis aqui o link do canal. 😁");
                 return;
             }
-            ctx.reply("✅ Você já está no canal.", { reply_markup: menus_1.backMenu });
+            yield ctx.editMessageText("✅ Você já está no canal.", { reply_markup: menus_1.backMenu });
         }
         catch (error) {
             console.error("Erro na verificação:", error);
-            ctx.reply("❌ Erro ao verificar informações. Tente novamente.");
+            yield ctx.editMessageText("❌ Erro ao verificar informações. Tente novamente.");
         }
     });
 }

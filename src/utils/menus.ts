@@ -1,13 +1,13 @@
 import { InlineKeyboard } from "grammy"
 const mainMenu = new InlineKeyboard()
-    .text("🔞 Acessar conteudo", "access")
+    .text("⭐ Acessar conteudo", "access")
     .row()
     .text("👤 Info ", "profile")
     .row()
     .url("🔧 Suporte ", "t.me/fyex86")
 
 const profileMenu = new InlineKeyboard()
-    .text("🔞 Acessar conteudo", "access")
+    .text("⭐ Acessar conteudo", "access")
     .row()
     .text("🔙 Voltar", "start")
 

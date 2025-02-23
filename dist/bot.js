@@ -41,7 +41,7 @@ app.callbackQuery("profile", (ctx) => __awaiter(void 0, void 0, void 0, function
 }));
 app.callbackQuery("start", (ctx) => {
     var _a;
-    ctx.reply(`👋 Olá, \`${(_a = ctx.chat) === null || _a === void 0 ? void 0 : _a.first_name}\`, Seja Bem vindo!`, { reply_markup: menus_1.mainMenu, parse_mode: "Markdown" });
+    ctx.editMessageText(`👋 Olá, \`${(_a = ctx.chat) === null || _a === void 0 ? void 0 : _a.first_name}\`, Seja Bem vindo!`, { reply_markup: menus_1.mainMenu, parse_mode: "Markdown" });
 });
 app.callbackQuery("access", (ctx) => __awaiter(void 0, void 0, void 0, function* () {
     yield (0, access_1.access)(ctx);

@@ -5,14 +5,14 @@ const prisma = new PrismaClient();
 
 export default async function profile(ctx: Context) {
 
-  ctx.deleteMessage();
+  ctx.editMessageText("🕰 Acessando informações...")
   const perfil = await prisma.user.findUnique({
     where: {
       telegramId: ctx.chatId,
     },
   });
   if (perfil) {
-    ctx.reply(`👤 Seu perfil:
+    ctx.editMessageText(`👤 Seu perfil:
 
 🆔 \*ID\*: ${perfil.telegramId}
 💳 \*Nome\*: ${perfil.firstName}
@@ -27,7 +27,7 @@ export default async function profile(ctx: Context) {
         firstName: ctx.chat?.first_name
       },
     });
-    ctx.reply(`👤 Seu perfil:
+    ctx.editMessageText(`👤 Seu perfil:
 
 🆔 \*ID\*: ${perfil.telegramId}
 💳 \*Nome\*: ${perfil.firstName}

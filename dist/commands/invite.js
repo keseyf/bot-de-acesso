@@ -13,6 +13,11 @@ exports.default = invite;
 const client_1 = require("@prisma/client");
 const menus_1 = require("../utils/menus");
 const prisma = new client_1.PrismaClient();
+require("dotenv/config");
+const channelId = process.env.CHANNEL_ID;
+if (!channelId) {
+    throw new Error("Channel id is not defined");
+}
 function invite(app, ctx, msg) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
@@ -24,13 +29,14 @@ function invite(app, ctx, msg) {
             for (const user of authorizedUsers) {
                 if (user.telegramId) {
                     try {
-                        const userIsInChannel = yield app.api.getChatMember("-1002339689741", Number(user.telegramId));
+                        const userIsInChannel = yield app.api.getChatMember(`${channelId}`, Number(user.telegramId));
                         if (!userIsInChannel || userIsInChannel.status === "left") {
-                            const inviteLink = yield app.api.createChatInviteLink("-1002339689741", {
+                            const inviteLink = yield app.api.createChatInviteLink(`${channelId}`, {
                                 name: `Convite para ${user.firstName}`
                             });
                             console.log(`Usuário ${user.telegramId} não está no canal. Enviando link: ${inviteLink.invite_link}`);
-                            app.api.sendMessage(String(user.telegramId), `${msg}\n\n${inviteLink.invite_link}`, { reply_markup: menus_1.backMenu });
+                            ctx.deleteMessage();
+                            app.api.sendMessage(String(user.telegramId), `${msg}\n\nLink do grupo: ${inviteLink.invite_link}`, { reply_markup: menus_1.backMenu });
                             return;
                         }
                     }
