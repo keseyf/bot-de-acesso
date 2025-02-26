@@ -50,11 +50,9 @@ const mercadopago_1 = __importStar(require("mercadopago"));
 const client_1 = require("@prisma/client");
 require("dotenv/config");
 const invite_1 = __importDefault(require("./invite"));
-const grammy_1 = require("grammy");
 const menus_1 = require("../utils/menus");
 const verification_1 = __importDefault(require("./verification"));
 const register_1 = __importDefault(require("./register"));
-const app = new grammy_1.Bot("7946286603:AAGK48VKGoBhhWe6A8d-jQVREpgm-dsgfhg");
 const MPToken = process.env.TOKEN_MP;
 const amount = process.env.AMOUNT;
 const prisma = new client_1.PrismaClient();
@@ -68,7 +66,7 @@ const mp = new mercadopago_1.default({
     accessToken: MPToken,
 });
 const payment = new mercadopago_1.Payment(mp);
-function access(ctx) {
+function access(ctx, app) {
     return __awaiter(this, void 0, void 0, function* () {
         var _a, _b, _c, _d, _e, _f;
         ctx.editMessageText("🕰 Acessando informações...");

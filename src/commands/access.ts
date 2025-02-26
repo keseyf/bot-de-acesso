@@ -1,14 +1,11 @@
-import { Context } from "grammy";
+import { Bot, Context } from "grammy";
 import MercadoPagoConfig, { Payment } from "mercadopago";
 import { PrismaClient } from "@prisma/client";
 import 'dotenv/config';
 import invite from "./invite";
-import { Bot } from "grammy";
 import { backMenu } from "../utils/menus";
 import verification from "./verification";
 import register from "./register";
-const app = new Bot("7946286603:AAGK48VKGoBhhWe6A8d-jQVREpgm-dsgfhg");
-
 const MPToken = process.env.TOKEN_MP;
 const amount = process.env.AMOUNT;
 
@@ -26,7 +23,7 @@ const mp = new MercadoPagoConfig({
 
 const payment = new Payment(mp);
 
-export async function access(ctx: Context) {
+export async function access(ctx: Context, app: Bot) {
     ctx.editMessageText("🕰 Acessando informações...");
     const telegramuserid = ctx.chat?.id;
     const userId = ctx.from?.id?.toString() ?? "0";

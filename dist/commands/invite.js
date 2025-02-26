@@ -20,6 +20,12 @@ if (!channelId) {
 }
 function invite(app, ctx, msg) {
     return __awaiter(this, void 0, void 0, function* () {
+        var _a;
+        const user = (_a = ctx.chat) === null || _a === void 0 ? void 0 : _a.id;
+        const inviteLink = yield app.api.createChatInviteLink(Number(channelId), {
+            name: `Convite para ${user}`
+        });
+        const menu = (0, menus_1.urlAndBackMenu)(inviteLink.invite_link);
         try {
             const authorizedUsers = yield prisma.user.findMany({
                 where: {
@@ -36,7 +42,7 @@ function invite(app, ctx, msg) {
                             });
                             console.log(`Usuário ${user.telegramId} não está no canal. Enviando link: ${inviteLink.invite_link}`);
                             ctx.deleteMessage();
-                            app.api.sendMessage(String(user.telegramId), `${msg}\n\nLink do grupo: ${inviteLink.invite_link}`, { reply_markup: menus_1.backMenu });
+                            app.api.sendMessage(String(user.telegramId), `${msg}`, { reply_markup: menu });
                             return;
                         }
                     }

@@ -1,6 +1,6 @@
 import { Bot, Context } from "grammy";
 import { PrismaClient } from "@prisma/client";
-import { backMenu } from "../utils/menus";
+import { backMenu, urlAndBackMenu } from "../utils/menus";
 const prisma = new PrismaClient();
 import "dotenv/config"
 
@@ -11,6 +11,13 @@ if (!channelId) {
 }
 
 export default async function invite(app: Bot, ctx: Context, msg: string) {
+    const user = ctx.chat?.id
+    const inviteLink = await app.api.createChatInviteLink(Number(channelId), {
+        name: `Convite para ${user}`
+    });
+
+    const menu = urlAndBackMenu(inviteLink.invite_link);
+
     try {
         const authorizedUsers = await prisma.user.findMany({
             where: {
@@ -30,7 +37,7 @@ export default async function invite(app: Bot, ctx: Context, msg: string) {
 
                         console.log(`Usuário ${user.telegramId} não está no canal. Enviando link: ${inviteLink.invite_link}`);
                         ctx.deleteMessage()
-                        app.api.sendMessage(String(user.telegramId), `${msg}\n\nLink do grupo: ${inviteLink.invite_link}`, { reply_markup: backMenu });
+                        app.api.sendMessage(String(user.telegramId), `${msg}`, { reply_markup: menu });
                         return
                     }
                 } catch (error) {

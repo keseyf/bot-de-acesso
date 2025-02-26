@@ -83,7 +83,7 @@ app.callbackQuery("access", async (ctx) => {
     try {
         const isInChannel = await verificarInscricao(ctx, app);
         if (isInChannel === true) {
-            await access(ctx);
+            await access(ctx, app);
         } else {
             sendNotInChannelReply(ctx, app)
         }

@@ -91,7 +91,7 @@ app.callbackQuery("access", (ctx) => __awaiter(void 0, void 0, void 0, function*
     try {
         const isInChannel = yield (0, verifyIncription_1.default)(ctx, app);
         if (isInChannel === true) {
-            yield (0, access_1.access)(ctx);
+            yield (0, access_1.access)(ctx, app);
         }
         else {
             (0, notInChannel_1.default)(ctx, app);
