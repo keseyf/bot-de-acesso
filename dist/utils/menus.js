@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.backMenu = exports.profileMenu = exports.mainMenu = void 0;
+exports.unrealVipMenu = exports.accessMenu = exports.backMenu = exports.profileMenu = exports.mainMenu = void 0;
 const grammy_1 = require("grammy");
 const mainMenu = new grammy_1.InlineKeyboard()
     .text("⭐ Acessar conteudo", "access")
@@ -17,3 +17,11 @@ exports.profileMenu = profileMenu;
 const backMenu = new grammy_1.InlineKeyboard()
     .text("🔙 Voltar", "start");
 exports.backMenu = backMenu;
+const accessMenu = new grammy_1.InlineKeyboard()
+    .text("⭐ Acessar conteudo", "access");
+exports.accessMenu = accessMenu;
+const unrealVipMenu = (url) => {
+    return new grammy_1.InlineKeyboard()
+        .url("Entrar", url);
+};
+exports.unrealVipMenu = unrealVipMenu;

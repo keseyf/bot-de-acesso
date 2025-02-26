@@ -2,6 +2,13 @@ import { Bot, Context } from "grammy";
 import { PrismaClient } from "@prisma/client";
 import invite from "./invite";
 import { backMenu } from "../utils/menus";
+import 'dotenv/config';
+
+const channelId = process.env.CHANNEL_ID;
+
+if (!channelId) {
+    throw new Error("No channeel id defined")
+}
 
 const prisma = new PrismaClient();
 
@@ -26,7 +33,7 @@ export default async function verification(app: Bot, ctx: Context) {
             }
         }, 3000);
 
-        const chatMember = await app.api.getChatMember("-1002339689741", Number(telegramId));
+        const chatMember = await app.api.getChatMember(Number(channelId), Number(telegramId));
         if (chatMember) {
             dataFinded = true;
         }
@@ -37,7 +44,12 @@ export default async function verification(app: Bot, ctx: Context) {
         await ctx.editMessageText("✅ Você já está no canal.", { reply_markup: backMenu });
 
     } catch (error) {
-        console.error("Erro na verificação:", error);
-        await ctx.editMessageText("❌ Erro ao verificar informações. Tente novamente.");
+        console.error("Erro na verificação",);
+        try {
+            await ctx.editMessageText("❌ Erro ao verificar informações. Tente novamente.");
+        }
+        catch {
+            console.log("erro")
+        }
     }
 }

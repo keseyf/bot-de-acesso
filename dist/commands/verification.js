@@ -16,6 +16,11 @@ exports.default = verification;
 const client_1 = require("@prisma/client");
 const invite_1 = __importDefault(require("./invite"));
 const menus_1 = require("../utils/menus");
+require("dotenv/config");
+const channelId = process.env.CHANNEL_ID;
+if (!channelId) {
+    throw new Error("No channeel id defined");
+}
 const prisma = new client_1.PrismaClient();
 function verification(app, ctx) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -37,7 +42,7 @@ function verification(app, ctx) {
                     yield ctx.editMessageText("🕰 Isto pode demorar algum tempo");
                 }
             }), 3000);
-            const chatMember = yield app.api.getChatMember("-1002339689741", Number(telegramId));
+            const chatMember = yield app.api.getChatMember(Number(channelId), Number(telegramId));
             if (chatMember) {
                 dataFinded = true;
             }
@@ -48,8 +53,13 @@ function verification(app, ctx) {
             yield ctx.editMessageText("✅ Você já está no canal.", { reply_markup: menus_1.backMenu });
         }
         catch (error) {
-            console.error("Erro na verificação:", error);
-            yield ctx.editMessageText("❌ Erro ao verificar informações. Tente novamente.");
+            console.error("Erro na verificação");
+            try {
+                yield ctx.editMessageText("❌ Erro ao verificar informações. Tente novamente.");
+            }
+            catch (_b) {
+                console.log("erro");
+            }
         }
     });
 }

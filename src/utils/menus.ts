@@ -14,4 +14,12 @@ const profileMenu = new InlineKeyboard()
 const backMenu = new InlineKeyboard()
     .text("🔙 Voltar", "start")
 
-export { mainMenu, profileMenu, backMenu }
+const accessMenu = new InlineKeyboard()
+    .text("⭐ Acessar conteudo", "access")
+
+const unrealVipMenu = (url: string) => {
+    return new InlineKeyboard()
+        .url("Entrar", url)
+}
+
+export { mainMenu, profileMenu, backMenu, accessMenu, unrealVipMenu }
